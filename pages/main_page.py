@@ -28,7 +28,7 @@ class MainPage:
         for i in range(len(items_list)):
             self.click_left_menu_items(i)
             self.verify_title_h1()
-            with allure.MASTER_HELPER.step('Admin panel %s' % items_list[i]):
+            with allure.MASTER_HELPER.step('Admin panel %s' % items_list[i].text):
                 allure.MASTER_HELPER.attach('screen', self.driver.get_screenshot_as_png(), type=AttachmentType.PNG)
 
     def select_countries(self):
