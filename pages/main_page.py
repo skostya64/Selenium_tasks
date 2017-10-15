@@ -21,14 +21,14 @@ class MainPage:
         assert len(self.driver.find_elements_by_css_selector("h1")) == 1
 
     def get_menu_items_list(self):
-        return self.driver.find_elements_by_xpath("//li[@id='app-']/a")
+        return self.driver.find_elements_by_xpath("//li[@id='app-']/a/span[@class='name']")
 
     def check_all_admin_panel_items(self):
         items_list = self.get_menu_items_list()
         for i in range(len(items_list)):
             self.click_left_menu_items(i)
             self.verify_title_h1()
-            with allure.MASTER_HELPER.step('Admin panel %s' % items_list[i].text):
+            with allure.MASTER_HELPER.step('Admin panel %s' % self.get_menu_items_list()[i].text):
                 allure.MASTER_HELPER.attach('screen', self.driver.get_screenshot_as_png(), type=AttachmentType.PNG)
 
     def select_countries(self):
