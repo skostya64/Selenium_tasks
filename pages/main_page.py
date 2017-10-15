@@ -1,3 +1,7 @@
+import allure
+from allure.constants import AttachmentType
+
+
 class MainPage:
 
     def __init__(self, driver):
@@ -24,6 +28,8 @@ class MainPage:
         for i in range(len(items_list)):
             self.click_left_menu_items(i)
             self.verify_title_h1()
+            with allure.MASTER_HELPER.step('Admin panel %s' % items_list[i]):
+                allure.MASTER_HELPER.attach('screen', self.driver.get_screenshot_as_png(), type=AttachmentType.PNG)
 
     def select_countries(self):
         self.driver.find_element_by_xpath("//span[@class='name' and contains(text(), 'Countries')]").click()
