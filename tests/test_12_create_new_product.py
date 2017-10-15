@@ -1,39 +1,66 @@
-from selenium import webdriver
-from selenium.webdriver.support.ui import Select
-
-driver = webdriver.Chrome()
-driver.implicitly_wait(10)
-product_name = "Yoyo"
 
 
-def test_create_new_product():
-    login(username="admin", password="admin")
-    driver.find_element_by_xpath("//span[@class='name' and contains(text(), 'Catalog')]").click()
-    driver.find_element_by_xpath("//a[@href='http://localhost/litecart/admin/?app=catalog&doc=catalog']").click()
-    driver.find_element_by_xpath("//a[@class='btn btn-default' and contains(., ' Add New Product')]").click()
-    driver.find_element_by_xpath("//input[@name='name[en]']").clear()
-    driver.find_element_by_xpath("//input[@name='name[en]']").send_keys(product_name)
-    driver.find_element_by_xpath("//input[@name='code']").clear()
-    driver.find_element_by_xpath("//input[@name='code']").send_keys("A0001")
-    driver.find_element_by_xpath("//a[text()='Information']").click()
-    select_manufactor = Select(driver.find_element_by_name('manufacturer_id'))
-    select_manufactor.select_by_value("1")
-    driver.find_element_by_name("keywords").send_keys("Fff")
-    driver.find_element_by_css_selector(".trumbowyg-editor").send_keys("Aaa")
-    driver.find_element_by_xpath("//a[text()='Prices']").click()
-    select_purchase = Select(driver.find_element_by_name('purchase_price_currency_code'))
-    select_purchase.select_by_value("EUR")
-    driver.find_element_by_xpath("//input[@name='prices[USD]']").clear()
-    driver.find_element_by_xpath("//input[@name='prices[USD]']").send_keys("10")
-    driver.find_element_by_xpath("//button[@name='save']").click()
-    driver.find_element_by_xpath("//span[@class='name' and contains(text(), 'Catalog')]").click()
-    assert len(driver.find_elements_by_xpath("//a[text()='%s']" % product_name)) > 0
+def test_create_new_product(app):
+    app.login(username="admin", password="admin")
+    app.create_new_product_page.open_catalog()
+    app.create_new_product_page.click_list_item_catalog()
+    app.create_new_product_page.add_new_product()
+    app.add_new_product_page.input_name_product()
+    app.add_new_product_page.input_code_product()
+    app.add_new_product_page.click_item_menu_information()
+    app.add_new_product_page.select_menufactor_name()
+    app.add_new_product_page.input_keywords()
+    app.add_new_product_page.input_description()
+    app.add_new_product_page.click_item_menu_prices()
+    app.add_new_product_page.select_purchase_price()
+    app.add_new_product_page.input_price()
+    app.add_new_product_page.click_button_save()
+    app.create_new_product_page.open_catalog()
+    app.add_new_product_page.check_expected_new_product_name(product_name="YOYO")
 
 
-def login(username, password):
-    driver.get("http://localhost/litecart/admin/")
-    driver.find_element_by_name("username").clear()
-    driver.find_element_by_name("username").send_keys(username)
-    driver.find_element_by_name("password").clear()
-    driver.find_element_by_name("password").send_keys(password)
-    driver.find_element_by_css_selector("button.btn.btn-default").click()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

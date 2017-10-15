@@ -1,26 +1,33 @@
-from selenium import webdriver
-
-driver = webdriver.Chrome()
-driver.implicitly_wait(10)
 
 
-def test_check_price():
-    login(username="admin", password="admin")
-    driver.find_element_by_xpath("//i[@class='fa fa-chevron-circle-left']").click()
-    p1 = driver.find_element_by_xpath("//div[@class='price-wrapper']/strong[@class='campaign-price']").text
-    pr1 = driver.find_element_by_xpath("//div[@class='price-wrapper']/s[@class='regular-price']").text
-    driver.find_element_by_xpath("//a[@href='http://localhost/litecart/en/rubber-ducks-c-1/subcategory-c-2/yellow-duck-p-1']").click()
-    p2 = driver.find_element_by_xpath("//div[@class='price-wrapper']/strong[@class='campaign-price']").text
-    pr2 = driver.find_element_by_xpath("//div[@class='price-wrapper']/s[@class='regular-price']").text
+def test_check_price(app):
+    app.login(username="admin", password="admin")
+    app.check_price_page.click_circle_left()
+    p1 = app.check_price_page.get_campaign_price()
+    pr1 = app.check_price_page.get_regular_price()
+    app.check_price_yd_page.get_page_yellow_duck()
+    p2 = app.check_price_yd_page.get_compaign_price_yd()
+    pr2 = app.check_price_yd_page.get_regular_price_yd()
     assert p1 == p2
     assert pr1 == pr2
-    driver.quit()
 
 
-def login(username, password):
-    driver.get("http://localhost/litecart/admin/")
-    driver.find_element_by_name("username").clear()
-    driver.find_element_by_name("username").send_keys(username)
-    driver.find_element_by_name("password").clear()
-    driver.find_element_by_name("password").send_keys(password)
-    driver.find_element_by_css_selector("button.btn.btn-default").click()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
